@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>materia</title>
+</h:head>
+<h:body>
+<p:menubar>
+		<p:submenu label="File" icon="pi pi-file">
+			<p:submenu label="New" icon="pi pi-briefcase">
+				<p:menuitem value="Inicio" url="http://localhost:8080/AsistenciaPaex/faces/xhtml/index.xhtml" />
+				<p:menuitem value="Usuario" url="http://localhost:8080/AsistenciaPaex/faces/xhtml/usuario.xhtml" />
+				<p:menuitem value="Curso" url="http://localhost:8080/AsistenciaPaex/faces/xhtml/curso.xhtml" />
+				<p:menuitem value="Asistencia" url="http://localhost:8080/AsistenciaPaex/faces/xhtml/asistencia.xhtml" />
+			</p:submenu>
+		</p:submenu>
+	</p:menubar>
+	<h1 align="center" style="font-family: sans; color: white;">Ingreso_de_Materias</h1>
+
+	<h:form id="detalle">
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<p:fieldset align="center" id="basic" legend="Datos">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nombre Materia"></p:outputLabel>
+				<p:inputText id="txtNmateria" value="#{materiaView.nombreMateria}" />
+				<p:outputLabel value="Estado"></p:outputLabel>
+				<p:inputText id="txtEstado" value="#{materiaView.estadoMateria}" />
+			</h:panelGrid>
+			<p:commandButton icon="pi pi-user" value="Agregar" id="idBtnAg"
+				update="@form detalleMateria" action="#{materiaView.insertarMateria}"></p:commandButton>
+		</p:fieldset>
+	</h:form>
+	<p:panel id="detalleMateria" header="Registro de Materias">
+		<h:form>
+			<p:dataTable var="listaMat" value="#{materiaView.listaMateria}"
+				widgetVar="dtmateria" rows="10" paginator="true"
+				paginatorPosition="bottom" scrollable="true" scrollRows="20"
+				scrollHeight="520" editable ="true">
+				
+				<p:ajax event="rowEdit" listener="#{materiaView.onRowEdit}"
+					update=":detalle:growl" />
+				<p:ajax event="rowEditCancel" listener="#{materiaView.onRowCancel}"
+					update=":detalle:growl" />
+					
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{listaMat.idMateria}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{listaMat.idMateria}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="N.Materia">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{listaMat.nombreMateria}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput1" value="#{listaMat.nombreMateria}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+						
+				<p:column headerText="Estado">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{listaMat.estadoMateria}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput2" value="#{listaMat.estadoMateria}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column style="width:35px">
+					<p:rowEditor />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+</h:body>
+</html>
